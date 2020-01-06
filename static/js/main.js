@@ -6,6 +6,9 @@ $(document).ready(function () {
     // handler for category
     $('select').material_select();
 
+    // handle navigation hamburger
+    $(".button-collapse").sideNav();
+
 });
 
 //initialize the picker for due date
