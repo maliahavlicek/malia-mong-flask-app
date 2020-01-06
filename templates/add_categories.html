@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="row">
+        <div class="col s12">
+            <h3>Add Category</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <form action="{{ url_for('insert_category') }}" method="POST" class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">poll</i>
+                        <input placeholder="Category Name" id="category_name" name="category_name" type="text" class="validate">
+                        <label for="category_name">Category Name</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button class="btn waves-effect waves-light" type="submit" name="add_category" id="add_category">Add Category
+                        <i class="material-icons right">playlist_add</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
