@@ -6,10 +6,18 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 
 # before PROD put username password into env variables
+db_user = os.environ.get("DB_USER")
+db_password = os.environ.get("DB_PASS")
 app.config["MONGO_DBNAME"] = 'task_manager'
-app.config["MONGO_URI"] = 'mongodb+srv://root:2019Winter@mhavlicfirstcluster-pielp.mongodb.net/task_manager?retryWrites=true&w=majority'
+app.config[
+    "MONGO_URI"] = 'mongodb+srv://' + db_user + ':' + db_password + '@mhavlicfirstcluster-pielp.mongodb.net/task_manager?retryWrites=true&w=majority'
+
+# prevent cross site foregery
+app.config['SECRET_KEY'] = 'shh make this a secret already'
+
 
 mongo = PyMongo(app)
+
 
 @app.route('/')
 @app.route('/get_tasks')
@@ -75,9 +83,9 @@ def edit_category(category_id):
 def update_category(category_id):
     cat = mongo.db.categories
     cat.update({'_id': ObjectId(category_id)},
-                 {
-                     'category_name': request.form.get('category_name')
-                 })
+               {
+                   'category_name': request.form.get('category_name')
+               })
     return redirect(url_for('get_categories'))
 
 
@@ -99,7 +107,6 @@ def delete_category(category_id):
     """ FUTURE: COULD update to have is_complete being set then update get_tasks to only show tasks that are not completed"""
     mongo.db.categories.remove({'_id': ObjectId(category_id)})
     return redirect(url_for('get_categories'))
-
 
 
 if __name__ == '__main__':
